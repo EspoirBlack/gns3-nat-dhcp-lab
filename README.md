@@ -1,7 +1,7 @@
 # GNS3 Lab: DHCP and NAT Configuration
 
 ![Status](https://img.shields.io/badge/status-completed-brightgreen)
-![Platform](https://img.shields.io/badge/platform-GNS3%20%7CVirtualBox%20%7C%20Cisco%20IOS-blue)
+![Platform](https://img.shields.io/badge/platform-GNS3%20%7C%20VirtualBox%20%7C%20Cisco%20IOS-blue)
 ![Focus](https://img.shields.io/badge/focus-DHCP%20%7C%20NAT%20%7C%20Routing-orange)
 
 ## Overview
