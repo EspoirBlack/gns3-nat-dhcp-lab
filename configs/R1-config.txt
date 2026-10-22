@@ -1,0 +1,19 @@
+hostname MainRouter
+!
+ interface FastEthernet0/0
+ ip address dhcp
+ ip nat outside
+ no shutdown
+!
+interface FastEthernet0/1
+ ip address 192.168.100.1 255.255.255.0
+ ip nat inside
+ no shutdown
+!
+ip dhcp pool localNetwork
+ network 192.168.100.0 255.255.255.0
+ default-router 192.168.100.1
+ dns-server 8.8.8.8
+!
+ access-list 1 permit 192.168.100.0 0.0.0.255
+ ip nat inside source list 1 interface FastEthernet0/0 overload

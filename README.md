@@ -29,7 +29,7 @@ The lab was built using **GNS3** to simulate a real-world enterprise edge router
 | PC1 (VPC) | e0 | DHCP (`192.168.100.2`) | Internal Host |
 | SOC101 (Win10) | e0 | DHCP (`192.168.100.3`) | Internal Host |
 
-## 🛠️ Technologies & Tools
+## Technologies & Tools
 
 | Category | Tools / Protocols |
 | :--- | :--- |
@@ -38,7 +38,7 @@ The lab was built using **GNS3** to simulate a real-world enterprise edge router
 | Networking | DHCP, NAT/PAT, IPv4, ACLs |
 | Testing | VPC (Virtual PC Simulator), Windows 10 |
 
-## ⚙️ How It Works
+## How It Works
 
 1. **WAN DHCP Client:** Interface `f0/0` is configured with `ip address dhcp`, allowing the router to pull an IP from the GNS3 NAT cloud (simulating an ISP).
 2. **LAN DHCP Server:** An IP pool (`localNetwork`) is created on R1 to hand out IPs in the `192.168.100.0/24` range, providing `8.8.8.8` as the DNS server and `192.168.100.1` as the default gateway.
@@ -46,7 +46,7 @@ The lab was built using **GNS3** to simulate a real-world enterprise edge router
    - A standard ACL (`LAN_SUBNET`) identifies traffic from the internal network that is allowed to be translated.
    - `ip nat inside source list LAN_SUBNET interface f0/0 overload` translates all internal IPs to the single public IP address of the WAN interface using Port Address Translation (PAT).
 
-## 🚀 Setup / Reproduction
+## Setup / Reproduction
 
 1. Open the GNS3 project file (if uploaded to repo).
 2. Start all devices.
@@ -54,7 +54,7 @@ The lab was built using **GNS3** to simulate a real-world enterprise edge router
 4. On the VPC, run `dhcp -r` to request an IP address.
 5. On the Windows VM, open Command Prompt and run `ipconfig /renew`.
 
-## 🧪 Verification & Evidence
+## Verification & Evidence
 
 ### 1. DHCP Configuration on R1
 The router is successfully configured to hand out IPs on the local network.
@@ -76,19 +76,19 @@ The VPC successfully obtained an IP via DHCP and can ping external IPs (`8.8.8.8
 A Windows 10 VM on the same network successfully obtained an IP via DHCP and tested external connectivity.
 ![Windows 10 Ping](evidence/06-win10-ping.png)
 
-## 🔐 Security Considerations
+## Security Considerations
 
 - **NAT is not a firewall:** While NAT hides internal IP addresses, an extended ACL should be applied on the WAN interface in a real production environment to explicitly block unsolicited inbound traffic.
 - **DHCP Snooping:** In a production network with physical switches, DHCP snooping should be implemented to prevent rogue DHCP servers.
 - **DNS Security:** The lab uses `8.8.8.8` (Google DNS) for simplicity. Enterprise environments should use internal, filtered DNS servers.
 
-## 📚 Lessons Learned
+## Lessons Learned
 
 - **Interface Boundaries:** NAT requires explicit `ip nat inside` and `ip nat outside` commands on the correct interfaces. A common mistake is forgetting to apply this to the LAN interface, which breaks translation.
 - **GNS3 DHCP Environments:** Working with the GNS3 NAT cloud requires ensuring the VirtualBox/VMware host network adapter is properly bridging to the host's internet connection so the router can pull a WAN IP.
 - **VPC Commands:** The VPC uses specific commands like `dhcp -r` to release/renew IPs, which differ from standard Cisco IOS CLI.
 
-## 🔭 Future Improvements
+## Future Improvements
 
 - [ ] Add an extended ACL to restrict outbound traffic from specific LAN hosts.
 - [ ] Configure a Layer 2 switch with VLANs between R1 and the end hosts.
